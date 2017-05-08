@@ -64,6 +64,19 @@
   	  return array_key_exists($attribute, $object_vars);
   	}
 
+    public static function authenticate($username="", $password = "") {
+      global $db;
+
+      $username = $db->escape_prep($username);
+      $password = $db->escape_prep($password);
+
+      $sql = "SELECT * FROM users WHERE username = '{$username}' AND password='{$password}' LIMIT 1";
+
+      $result_array = self::find_by_sql($sql);
+
+      return !empty($result_array) ? array_shift($result_array) : false;
+    }
+
   }
 
 ?>
