@@ -6,7 +6,7 @@
   	public static function find_all() {
   	  global $db;
 
-  	  $result_set = User::find_by_sql("SELECT * FROM users");
+  	  $result_set = self::find_by_sql("SELECT * FROM users");
 
   	  return $result_set;
   	}
@@ -14,8 +14,8 @@
   	public static function find_by_id($id=0) {
   	  global $db;
 
-  	  $result_set = User::find_by_sql("SELECT * FROM users WHERE id={$id}");
-  	  
+  	  $result_set = self::find_by_sql("SELECT * FROM users WHERE id={$id}");
+
   	  $found = $db->fetch_array($result_set);
   	  return $found;
   	}
