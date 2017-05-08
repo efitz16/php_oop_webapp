@@ -6,10 +6,10 @@
 
   echo "<br>";
 
-  $found_user = User::find_by_sql("SELECT * FROM users;");
+  $found_user = User::find_all();
 
   echo "<br>";
 
-  echo $found_user['username'];
+  // echo $found_user['username'];
 
 ?>
