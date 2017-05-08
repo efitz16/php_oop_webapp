@@ -20,18 +20,23 @@
   	public static function find_by_id($id=0) {
   	  global $db;
 
-  	  $result_set = self::find_by_sql("SELECT * FROM users WHERE id={$id}");
+  	  $result_array = self::find_by_sql("SELECT * FROM users WHERE id={$id} LIMIT 1");
 
-  	  $found = $db->fetch_array($result_set);
-  	  return $found;
+  	  return !empty($result_array) ? array_shift($result_array) : false;
   	}
 
   	public static function find_by_sql($sql="") {
   	  global $db;
 
-  	  $result_set = $db->run_query($sql);
+  	  $result_array = $db->run_query($sql);
 
-  	  return $result_set;
+  	  $object_array = array();
+
+  	  while($row = $db->fetch_array($result_array)) {
+  	  	$object_array[] = self::instantiate($row);
+  	  }
+
+  	  return $object_array;
   	}
 
   	public function full_name() {
@@ -43,7 +48,9 @@
   	}
 
   	private static function instantiate($record) {
-  	  foreach($record as $attribute->$value) {
+      $object = new self;
+
+  	  foreach($record as $attribute=>$value) {
   	  	if($object->has_attribute($attribute)) {
   	  	  $object->$attribute = $value;
   	  	}
